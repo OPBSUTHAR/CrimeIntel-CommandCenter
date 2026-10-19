@@ -1,0 +1,11 @@
+backend/.venv
+backend/**/__pycache__
+**/__pycache__
+**/*.pyc
+*.log
+backend/.env
+backend/data/*.db-wal
+backend/data/*.db-shm
+frontend/node_modules
+.vscode
+.vercel

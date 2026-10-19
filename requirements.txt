@@ -1,0 +1,30 @@
+# Vercel serverless dependency set (FastAPI backend + React SPA in one function).
+#
+# This is the LEAN runtime set used by the hosted deployment (see index.py /
+# vercel.json). Heavy local-only packages are intentionally omitted because the
+# backend imports them lazily and falls back gracefully when they are absent:
+#   - torch / sentence-transformers -> EmbeddingService falls back to dummy vectors
+#   - faiss-cpu                     -> FAISSService disabled, retrieval stays structural
+#   - google-generativeai           -> gemini_service uses plain REST (requests)
+#   - playwright / pytest           -> test tooling only
+#
+# For full local development install the pinned per-package files instead:
+#   cd backend && pip install -r requirements.txt   (+ transformers==4.26.1,
+#   huggingface_hub==0.13.4 for sentence-transformers 2.2.2)
+#   cd frontend && npm install
+
+fastapi==0.115.0
+uvicorn==0.30.6
+pydantic==2.9.2
+python-multipart==0.0.6
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+aiosqlite==0.19.0
+numpy==1.26.4
+requests==2.32.3
+httpx==0.27.0
+rapidfuzz==3.9.1
+fpdf2==2.7.6
+ollama==0.6.3
+openai==1.35.0
