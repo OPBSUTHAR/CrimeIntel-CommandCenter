@@ -118,6 +118,18 @@ MIT License — see [LICENSE](./LICENSE).
 
 ---
 
+## ☁️ Live Demo
+
+**https://crimeintel-commandcenter.vercel.app**
+
+A public demo deployment (FastAPI backend + React frontend bundled into one Vercel serverless function, with the seeded demo database and evidence files included in the repository).
+
+- **Demo login:** `admin@ksp.gov.in` / `AdminPass123`
+- CRIMA AI answers fall back to grounded, record-backed summaries on the serverless demo (no GPU/Ollama attached); run locally with an LLM provider for full generative answers.
+- Uploads/edits write to an ephemeral `/tmp` copy and reset on cold start.
+
+---
+
 ## 👥 Authors & Contributors
 
 This project is a joint development by its co-authors. The complete commit history of the collaboration is preserved in this repository, and all contributors are credited in the contributors graph.
