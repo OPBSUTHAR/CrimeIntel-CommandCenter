@@ -34,6 +34,18 @@ if not os.environ.get("CRIMEINTEL_DB_PATH"):
         pass
     os.environ.setdefault("CRIMEINTEL_DB_PATH", db_path)
 
+# Writable evidence storage: seed /tmp/storage from the bundled storage tree
+if not os.environ.get("CRIMEINTEL_STORAGE_DIR"):
+    storage_path = str(Path("/tmp") / "storage")
+    bundled_storage = BACKEND / "storage"
+    try:
+        Path(storage_path).mkdir(parents=True, exist_ok=True)
+        if bundled_storage.is_dir():
+            shutil.copytree(str(bundled_storage), storage_path, dirs_exist_ok=True)
+    except OSError:
+        pass
+    os.environ.setdefault("CRIMEINTEL_STORAGE_DIR", storage_path)
+
 # Origins used by CORS and the CSRF middleware (exact-match against the request Origin)
 origins = ["http://localhost:5175"]
 for var in ("VERCEL_PROJECT_PRODUCTION_URL", "VERCEL_URL"):

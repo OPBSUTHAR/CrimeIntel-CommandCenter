@@ -1,4 +1,5 @@
 import logging
+import os
 from datetime import datetime
 
 from fastapi import FastAPI, Request
@@ -33,7 +34,7 @@ app.add_middleware(
 
 app.add_middleware(CSRFMiddleware)
 
-app.mount("/storage", StaticFiles(directory="storage"), name="storage")
+app.mount("/storage", StaticFiles(directory=os.environ.get("CRIMEINTEL_STORAGE_DIR", "storage")), name="storage")
 app.include_router(api_router, prefix="/api/v1")
 
 

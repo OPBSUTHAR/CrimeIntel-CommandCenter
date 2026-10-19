@@ -10,10 +10,16 @@ logger = logging.getLogger(__name__)
 
 class LocalFSAdapter:
     def __init__(self, base_path: Optional[str] = None) -> None:
-        self.base_path = base_path or os.path.join(os.path.dirname(__file__), "..", "storage")
-        os.makedirs(self.base_path, exist_ok=True)
-        os.makedirs(os.path.join(self.base_path, "evidence"), exist_ok=True)
-        os.makedirs(os.path.join(self.base_path, "cases"), exist_ok=True)
+        self.base_path = base_path or os.environ.get(
+            "CRIMEINTEL_STORAGE_DIR",
+            os.path.join(os.path.dirname(__file__), "..", "storage"),
+        )
+        try:
+            os.makedirs(self.base_path, exist_ok=True)
+            os.makedirs(os.path.join(self.base_path, "evidence"), exist_ok=True)
+            os.makedirs(os.path.join(self.base_path, "cases"), exist_ok=True)
+        except OSError:
+            logger.warning("Storage path is not writable: %s", self.base_path)
 
     async def _ensure_initialized(self) -> None:
         pass
@@ -42,8 +48,8 @@ class LocalFSAdapter:
             f.write(file_content)
         await file.seek(0)
 
-        backend_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        relative_path = os.path.relpath(file_path, backend_root).replace("\\", "/")
+        storage_root = os.path.dirname(os.path.abspath(self.base_path))
+        relative_path = os.path.relpath(file_path, storage_root).replace("\\", "/")
         public_url = "/" + relative_path
 
         logger.info(f"Stored evidence {orig} as {safe_filename} in {folder_path} for case {safe_folder}")
@@ -58,8 +64,8 @@ class LocalFSAdapter:
             return
 
         if file_url.startswith("/"):
-            backend_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-            file_path = os.path.join(backend_root, file_url.lstrip("/"))
+            storage_root = os.path.dirname(os.path.abspath(self.base_path))
+            file_path = os.path.join(storage_root, file_url.lstrip("/"))
             if os.path.exists(file_path):
                 os.remove(file_path)
                 logger.debug("Deleted file: %s", file_path)
