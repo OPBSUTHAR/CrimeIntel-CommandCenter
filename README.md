@@ -118,6 +118,16 @@ MIT License — see [LICENSE](./LICENSE).
 
 ---
 
+## 👥 Authors & Contributors
+
+This project is a joint development by its co-authors. The complete commit history of the collaboration is preserved in this repository, and all contributors are credited in the contributors graph.
+
+| Co-Author | GitHub |
+| --------- | ------ |
+| Eugene Elias | [@EugeneElias7](https://github.com/EugeneElias7) |
+| Omprakash Suthar | [@OPBSUTHAR](https://github.com/OPBSUTHAR) |
+| Mohammed Hamil P R | [@Hamilwt](https://github.com/Hamilwt) |
+
 ## Team
 
 **Pixel Pirates** — KSP Hackathon 2026
