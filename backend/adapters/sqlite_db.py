@@ -1,4 +1,5 @@
 import logging
+import os
 import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -13,7 +14,9 @@ class SQLiteDBAdapter:
         self._initialized = False
         self._conn = None
         self._table_prefix = settings.DATA_STORE_TABLE_PREFIX
-        self._db_path = Path(__file__).parent.parent / "data" / "crimeintel.db"
+        self._db_path = Path(
+            os.environ.get("CRIMEINTEL_DB_PATH", Path(__file__).parent.parent / "data" / "crimeintel.db")
+        )
 
     async def _ensure_initialized(self) -> None:
         if not self._initialized:

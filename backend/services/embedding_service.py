@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import List, Optional
 
 import numpy as np
@@ -31,8 +32,9 @@ class EmbeddingService:
         # Try to load sentence-transformers/all-MiniLM-L6-v2, fallback to dummy only if import fails
         try:
             from sentence_transformers import SentenceTransformer  # type: ignore
-            logger.info("Loading sentence-transformers model %s", self.MODEL_NAME)
-            self._model = SentenceTransformer(self.MODEL_NAME)
+            model_path = os.environ.get("EMBEDDING_MODEL_PATH", self.MODEL_NAME)
+            logger.info("Loading sentence-transformers model %s", model_path)
+            self._model = SentenceTransformer(model_path)
             logger.info("Loaded sentence-transformers model %s dimension=%d", self.MODEL_NAME, self.DIMENSION)
             return
         except ImportError as e:
