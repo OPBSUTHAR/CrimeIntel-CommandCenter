@@ -67,3 +67,5 @@ christ_logo_top_clean.png
 christ_seal_clean.png
 
 build_minimal_project_diary.py
+.vercel
+.env*
